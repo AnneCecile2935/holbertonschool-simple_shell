@@ -1,52 +1,16 @@
-# Prerequisites
-*.d
-
-# Object files
+# Ignore les fichiers compilés (exécutables)
+a.out
 *.o
-*.ko
-*.obj
-*.elf
-
-# Linker output
-*.ilk
-*.map
-*.exp
-
-# Precompiled Headers
-*.gch
-*.pch
-
-# Libraries
-*.lib
-*.a
-*.la
-*.lo
-
-# Shared objects (inc. Windows DLLs)
-*.dll
-*.so
-*.so.*
-*.dylib
-
-# Executables
-*.exe
 *.out
-*.app
-*.i*86
-*.x86_64
-*.hex
+*.exe
 
-# Debug files
-*.dSYM/
-*.su
-*.idb
-*.pdb
+# Ignorer tous les fichiers sans extension (considérés comme exécutables)
+[^.]*
 
-# Kernel Module Compile Results
-*.mod*
-*.cmd
-.tmp_versions/
-modules.order
-Module.symvers
-Mkfile.old
-dkms.conf
+# Autoriser les fichiers source et README
+!*.c
+!*.h
+!README.md
+
+# Ne pas ignorer les dossiers (pour permettre le suivi des fichiers dans les dossiers)
+!*/
