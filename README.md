@@ -151,6 +151,7 @@ After the deadline, you must fork the repo (if it's not on your GitHub account) 
 
 ```mermaid
 flowchart TD
+
     A[Simple_shell] --> B[Start]
     B --> C{Commande entrée?}
     C -- non --> B
@@ -182,6 +183,3 @@ flowchart TD
         R2[Libération mémoire]
     end
 	```
-
-
-Authors :``` AnneCecile2935 (annececile.colleter@holbertonstudents.com) - BenoitMain (10517@holbertonstudents.com)```
