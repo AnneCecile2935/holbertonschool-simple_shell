@@ -148,3 +148,40 @@ hsh main.c shell.c test_ls_2
 A checker will be released before the deadline. All students are encouraged to collaborate to build a test suite for normal and edge cases.
 
 After the deadline, you must fork the repo (if it's not on your GitHub account) to be graded.
+
+```mermaid
+flowchart TD
+    A[Simple_shell] --> B[Start]
+    B --> C{Commande entrée?}
+    C -- non --> B
+    C -- oui --> D[Lire la commande]
+    D --> E{Commande est-elle vide?}
+    E -- oui --> B
+    E -- non --> F[Découper la commande en arguments]
+    F --> G{Built-in?}
+    G -- oui --> H[Exécuter built-in]
+    G -- non --> I[Créer processus enfant avec fork]
+    H --> I1{Commande 'exit'?}
+    I1 -- oui --> J[Quitter le shell]
+    I1 -- non --> K[Exécuter commande built-in]
+    I --> L{Fork réussi?}
+    L -- non --> M[Afficher erreur avec perror]
+    L -- oui --> N[Exécuter commande avec execve]
+    N --> O{execve réusii?}
+    O -- non --> P[Afficher erreur avec perror]
+    O -- oui --> S[Afficher le résultat]
+    I -- oui --> Q[Attendre fin du processus enfant]
+  K --> R[Libérer mémoire]
+    M --> R[Libérer mémoire]
+    P --> R[Libérer mémoire]
+    Q --> R[Libérer mémoire]
+    S --> R[Libérer mémoire]
+    R --> B[Demander une nouvelle commande]
+    subgraph Divers
+        R1[Allocation mémoire]
+        R2[Libération mémoire]
+    end
+	```
+
+
+Authors :``` AnneCecile2935 (annececile.colleter@holbertonstudents.com) - BenoitMain (10517@holbertonstudents.com)```
