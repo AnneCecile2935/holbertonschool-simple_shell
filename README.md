@@ -56,9 +56,9 @@ A[Simple_shell] --> B(Start)
     P --> R[Libérer la mémoire]
     R --> D
      subgraph Memoire
-        R1[Allocation ligne (getline)]
-        R3[Allocation tableau d'arguments]
-        R4[Allocation chemin (PATH)]
+        R1[Allocation mémoire ligne]
+        R3[Allocation mémoire tableau d'arguments]
+        R4[Allocation mémoire chemin]
         R2[Libération mémoire avec free]
     end
     subgraph Fin
