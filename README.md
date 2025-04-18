@@ -29,30 +29,51 @@ git clone https://github.com/AnneCecile2935/holbertonschool-printf.git/utilisate
 ```mermaid
 graph TD;
 
-    A["Start"] --> B["_printf"]
-    B -- format(arg) --> Z[va_list arg  va_start arg, format]
-    Z --> C{"if format NULL?"}
-    C -- NON --> D{"if format %?"}
-    C -- OUI --> F{"return -1"}
-    D -- OUI --> E{"if %specifier?"}
-    X["📌 *Structure tableau associe spécifiers à fonction"] -.-> E
-    D -- NON --> Q["_printf"]
-    E --> G["c"] & H["s"] & I["i"] & J["d"] & K["%"]
-    G --> L["_print_char*"]
-    H --> M["_print_strings*"]
-    I --> N["_print_int*"]
-    J --> O["_print_int*"]
-    K --> P["_print_pourcentage*"]
-    L --> Q
-    M --> Q
-    N --> Q
-    O --> Q
-    P --> Q
-Q --> R[va_end]
-R --> S[return count]
-    style X stroke-width:2px,stroke-dasharray: 2
-```
+    A[Simple_shell] --> B(Start)
+    B --> C{Commande interactive?}
+    C -- oui --> D[prompt]
+    C -- non --> E[exécuter le programme]
+    D --> F[User enter command]
+    F -- oui --> G[read command ]
+    F -- non --> E
+    G --> H{Un ou plusieurs arguments}
+    H -- un --> I[Création processus enfant]
+    H -- plusieurs --> J[Strtok command]
+    
+    J --> K[Is built-in?]
+    K -- env --> K1[Afficher les variables d'environnement]
+    K1 --> R[Libération mémoire]
+    K -- exit --> Q2[exit]
+    K -- non --> I
 
+    I --> L[cherche le chemin var = value]
+    L --> M[PATH]
+    M --> N[exécuter la commande execve]
+    N --> N1{execve réussi ?}
+    N1 -- non --> N2[Afficher erreur avec perror]
+    N1 --> O[Wait]
+    O --> P[Afficher le résultat]
+    P --> R[Libération mémoire]
+    R --> D
+
+    subgraph Infos
+        P1[types d'arguments?]
+        P2[isatty interactive ou non?]
+        P3[PID / PPID]
+        P4[Benoit\n- prompt]
+    end
+
+    subgraph Fin de programme
+        Q1[sortie\n- rline\n- exit\n- PATH\n- executer la commande\n- execve\n- Wait\n- Afficher le résultat\n- prompt]
+        Q2[exit]
+    end
+
+    subgraph Divers
+        R1[Allocation de mémoire]
+        R2[Libération mémoire]
+    end
+
+    
 ### :paperclip: Contenu du repo :
 
 | Fichiers               | Description |
