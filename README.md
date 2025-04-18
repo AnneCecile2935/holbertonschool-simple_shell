@@ -28,23 +28,26 @@ git clone https://github.com/AnneCecile2935/holbertonschool-printf.git/utilisate
 ## :link: Flowchart :
 ```mermaid
 graph TD;
-    A[Simple_shell] --> B(Start)
+	A[Simple_shell] --> B(Start)
     B --> C{Commande interactive}
     C -- Oui --> D[Afficher prompt]
     C -- Non --> E[Executer programme non interactif]
     D --> F[Lire commande utilisateur]
-    F --> G[Lire ligne de commande]
-    G --> H{Un ou plusieurs arguments}
+    F --> G[Appeler getline]
+    G --> R1[Allouer mémoire pour la ligne lue]
+    R1 --> H{Un ou plusieurs arguments}
     H -- Un --> I[Créer processus enfant]
     H -- Plusieurs --> J[Découper avec strtok]
-    J --> K{Commande built-in ?}
+    J --> R3[Allouer mémoire pour tableau d'arguments]
+    R3 --> K{Commande built-in ?}
     K -- Oui : env --> K1[Afficher variables d'environnement]
-	K1 --> R[Libérer la mémoire]
+    K1 --> R[Libérer la mémoire]
     R --> D
     K -- Oui : exit --> Q2[Quitter shell]
     K -- Non --> I
     I --> L[Chercher chemin dans variables]
-    L --> M[Utiliser PATH]
+    L --> R4[Allouer mémoire pour le chemin]
+    R4 --> M[Utiliser PATH]
     M --> N[Executer commande avec execve]
     N --> N1{Execution réussie ?}
     N1 -- Non --> N2[Afficher erreur avec perror]
@@ -52,13 +55,16 @@ graph TD;
     O --> P[Afficher le résultat]
     P --> R[Libérer la mémoire]
     R --> D
-    subgraph Memoire
-        R1[Allocation mémoire]
+     subgraph Memoire
+        R1[Allocation ligne (getline)]
+        R3[Allocation tableau d'arguments]
+        R4[Allocation chemin (PATH)]
         R2[Libération mémoire avec free]
     end
     subgraph Fin
         Q1[Sortie normale : exit, libération, affichage résultat]
         Q2[exit]
+        Q2 --> V[Valgrind : vérifier fuites mémoire]
     end
 ```
 
