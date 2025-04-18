@@ -1,7 +1,4 @@
 #include "shell.h"
-#include <stdio.h>
-#include <stdlib.h>
-#include <unistd.h>
 #include <string.h>
 
 /**
@@ -12,24 +9,25 @@
 int main(void)
 {
 	int interactive = interactive_shell();
-	char *buffer = NULL;
-	size_t size = 0;
-	ssize_t nread;
+	char *str;
+	char **args;
 
+	str = NULL;
+	args = NULL;
 	if (interactive)
 	{
 		while (1)
 		{
 			print_prompt();
-			nread = getline(&buffer, &size, stdin);
-			if (nread == -1)
-			{
-				write (1, "\n", 1);
-				free(buffer);
-				exit(0);
-			}
+			str = read_command();
+			tokenize_string(str);
+			execute_command(args, environ);
+			free(str);
+
 		}
 	}
-	free(buffer);
 	return (0);
 }
+
+
+
