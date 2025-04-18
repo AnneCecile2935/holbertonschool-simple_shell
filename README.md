@@ -28,7 +28,7 @@ git clone https://github.com/AnneCecile2935/holbertonschool-printf.git/utilisate
 ## :link: Flowchart :
 ```mermaid
 graph TD;
-	A[Simple_shell] --> B(Start)
+A[Simple_shell] --> B(Start)
     B --> C{Commande interactive}
     C -- Oui --> D[Afficher prompt]
     C -- Non --> E[Executer programme non interactif]
