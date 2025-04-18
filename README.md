@@ -37,12 +37,10 @@ graph TD;
     G --> H{Un ou plusieurs arguments}
     H -- Un --> I[Créer processus enfant]
     H -- Plusieurs --> J[Découper avec strtok]
-
     J --> K{Commande built-in ?}
     K -- Oui : env --> K1[Afficher variables d'environnement]
     K -- Oui : exit --> Q2[Quitter shell]
     K -- Non --> I
-
     I --> L[Chercher chemin dans variables]
     L --> M[Utiliser PATH]
     M --> N[Executer commande avec execve]
@@ -52,23 +50,15 @@ graph TD;
     O --> P[Afficher le résultat]
     P --> R[Libérer la mémoire]
     R --> D
-
-    subgraph Infos
-        P1[Types d'arguments]
-        P2[isatty pour détecter mode]
-        P3[PID / PPID]
-        P4[Benoit - prompt]
-    end
-
     subgraph Memoire
         R1[Allocation mémoire]
         R2[Libération mémoire avec free]
     end
-
     subgraph Fin
         Q1[Sortie normale : exit, libération, affichage résultat]
         Q2[exit]
     end
+```
 
 ### :paperclip: Contenu du repo :
 
