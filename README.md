@@ -39,13 +39,11 @@ graph TD;
     G --> H{Un ou plusieurs arguments}
     H -- un --> I[Création processus enfant]
     H -- plusieurs --> J[Strtok command]
-    
     J --> K[Is built-in?]
     K -- env --> K1[Afficher les variables d'environnement]
     K1 --> R[Libération mémoire]
     K -- exit --> Q2[exit]
     K -- non --> I
-
     I --> L[cherche le chemin var = value]
     L --> M[PATH]
     M --> N[exécuter la commande execve]
@@ -56,11 +54,6 @@ graph TD;
     P --> R[Libération mémoire]
     R --> D
 
-    subgraph Infos
-        P1[types d'arguments?]
-        P2[isatty interactive ou non?]
-        P3[PID / PPID]
-        P4[Benoit\n- prompt]
     end
 
     subgraph Fin de programme
