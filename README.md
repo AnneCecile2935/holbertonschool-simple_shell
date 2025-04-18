@@ -29,46 +29,44 @@ git clone https://github.com/AnneCecile2935/holbertonschool-printf.git/utilisate
 ```mermaid
 graph TD;
     A[Simple_shell] --> B(Start)
-    B --> C{Commande interactive?}
-    C -- oui --> D[prompt]
-    C -- non --> E[exécuter le programme]
-    D --> F[User enter command]
-    F -- oui --> G[read command (getline)]
-    F -- non --> E
+    B --> C{Commande interactive}
+    C -- Oui --> D[Afficher prompt]
+    C -- Non --> E[Executer programme non interactif]
+    D --> F[Lire commande utilisateur]
+    F --> G[Lire ligne de commande]
     G --> H{Un ou plusieurs arguments}
-    H -- un --> I[Création processus enfant (fork)]
-    H -- plusieurs --> J[Strtok command]
+    H -- Un --> I[Créer processus enfant]
+    H -- Plusieurs --> J[Découper avec strtok]
 
-    J --> K{Est une commande built-in ?}
-    K -- "oui : env" --> K1[Afficher les variables d'environnement]
-    K -- "oui : exit" --> Q2[exit]
-    K -- non --> I
+    J --> K{Commande built-in ?}
+    K -- Oui : env --> K1[Afficher variables d'environnement]
+    K -- Oui : exit --> Q2[Quitter shell]
+    K -- Non --> I
 
-    I --> L[chercher le chemin (var = value)]
-    L --> M[PATH]
-    M --> N[execve (exécuter la commande)]
-    N --> N1{execve réussi ?}
-    N1 -- non --> N2[Afficher erreur (perror)]
-    N1 -- oui --> O[Wait]
+    I --> L[Chercher chemin dans variables]
+    L --> M[Utiliser PATH]
+    M --> N[Executer commande avec execve]
+    N --> N1{Execution réussie ?}
+    N1 -- Non --> N2[Afficher erreur avec perror]
+    N1 -- Oui --> O[Attendre processus enfant]
     O --> P[Afficher le résultat]
-    P --> R[Libération mémoire]
+    P --> R[Libérer la mémoire]
     R --> D
 
-    %% Infos auxiliaires
-    subgraph Infos [Informations utiles]
-        P1[types d'arguments?]
-        P2[isatty interactive ou non?]
+    subgraph Infos
+        P1[Types d'arguments]
+        P2[isatty pour détecter mode]
         P3[PID / PPID]
         P4[Benoit - prompt]
     end
 
-    subgraph Memoire [Mémoire]
-        R1[Allocation de mémoire]
-        R2[Libération mémoire (free, cleanup)]
+    subgraph Memoire
+        R1[Allocation mémoire]
+        R2[Libération mémoire avec free]
     end
 
-    subgraph Fin [Fin de programme]
-        Q1[sortie\n- rline\n- PATH\n- execve\n- Wait\n- Affichage résultat\n- prompt]
+    subgraph Fin
+        Q1[Sortie normale : exit, libération, affichage résultat]
         Q2[exit]
     end
 
