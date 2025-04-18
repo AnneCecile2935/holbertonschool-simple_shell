@@ -39,6 +39,8 @@ graph TD;
     H -- Plusieurs --> J[Découper avec strtok]
     J --> K{Commande built-in ?}
     K -- Oui : env --> K1[Afficher variables d'environnement]
+	K1 --> R[Libérer la mémoire]
+    R --> D
     K -- Oui : exit --> Q2[Quitter shell]
     K -- Non --> I
     I --> L[Chercher chemin dans variables]
