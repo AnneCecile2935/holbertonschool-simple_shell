@@ -28,45 +28,50 @@ git clone https://github.com/AnneCecile2935/holbertonschool-printf.git/utilisate
 ## :link: Flowchart :
 ```mermaid
 graph TD;
-
     A[Simple_shell] --> B(Start)
     B --> C{Commande interactive?}
     C -- oui --> D[prompt]
     C -- non --> E[exécuter le programme]
     D --> F[User enter command]
-    F -- oui --> G[read command ]
+    F -- oui --> G[read command (getline)]
     F -- non --> E
     G --> H{Un ou plusieurs arguments}
-    H -- un --> I[Création processus enfant]
+    H -- un --> I[Création processus enfant (fork)]
     H -- plusieurs --> J[Strtok command]
-    J --> K[Is built-in?]
-    K -- env --> K1[Afficher les variables d'environnement]
-    K1 --> R[Libération mémoire]
-    K -- exit --> Q2[exit]
+
+    J --> K{Est une commande built-in ?}
+    K -- "oui : env" --> K1[Afficher les variables d'environnement]
+    K -- "oui : exit" --> Q2[exit]
     K -- non --> I
-    I --> L[cherche le chemin var = value]
+
+    I --> L[chercher le chemin (var = value)]
     L --> M[PATH]
-    M --> N[exécuter la commande execve]
+    M --> N[execve (exécuter la commande)]
     N --> N1{execve réussi ?}
-    N1 -- non --> N2[Afficher erreur avec perror]
-    N1 --> O[Wait]
+    N1 -- non --> N2[Afficher erreur (perror)]
+    N1 -- oui --> O[Wait]
     O --> P[Afficher le résultat]
     P --> R[Libération mémoire]
     R --> D
 
+    %% Infos auxiliaires
+    subgraph Infos [Informations utiles]
+        P1[types d'arguments?]
+        P2[isatty interactive ou non?]
+        P3[PID / PPID]
+        P4[Benoit - prompt]
     end
 
-    subgraph Fin de programme
-        Q1[sortie\n- rline\n- exit\n- PATH\n- executer la commande\n- execve\n- Wait\n- Afficher le résultat\n- prompt]
+    subgraph Memoire [Mémoire]
+        R1[Allocation de mémoire]
+        R2[Libération mémoire (free, cleanup)]
+    end
+
+    subgraph Fin [Fin de programme]
+        Q1[sortie\n- rline\n- PATH\n- execve\n- Wait\n- Affichage résultat\n- prompt]
         Q2[exit]
     end
 
-    subgraph Divers
-        R1[Allocation de mémoire]
-        R2[Libération mémoire]
-    end
-
-    
 ### :paperclip: Contenu du repo :
 
 | Fichiers               | Description |
