@@ -23,6 +23,7 @@ int main(void)
 			tokenize_string(str);
 			execute_command(args, environ);
 			free(str);
+			free(args);
 
 		}
 	}

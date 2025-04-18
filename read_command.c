@@ -95,5 +95,6 @@ char tokenize_string(char *str)
 		copy = strtok(NULL, div);
 	}
 	args[i] = NULL;
+	
 	return (args);
 }
