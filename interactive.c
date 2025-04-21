@@ -35,12 +35,3 @@ void print_prompt(void)
 		write(1, "🔒 $USER ", 9);
 	}
 }
-/**
- *
- *
- *
- */
-int cutstring(int argc, char *argv[])
-{
-	
-}
