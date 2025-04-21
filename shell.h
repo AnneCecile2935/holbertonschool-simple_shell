@@ -12,6 +12,6 @@ void print_prompt(void);
 ssize_t _getline(char **lineptr, size_t *n, FILE *stream);
 char *read_command(void);
 void execute_command(char **args, char **envp);
-char tokenize_string(char *str);
+char **tokenize_string(char *str);
 
 #endif

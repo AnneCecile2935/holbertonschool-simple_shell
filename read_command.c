@@ -61,7 +61,7 @@ if (pid_child < 0)
 else if (pid_child == 0)
 {
 	execve(args[0], args, envp);
-	perror("execve");
+	perror("./shell");
 	exit(EXIT_FAILURE);
 }
 else
@@ -75,7 +75,7 @@ else
  *
  * Return: A NULL-terminated array of strings (tokens), or NULL on failure
  */
-char tokenize_string(char *str)
+char **tokenize_string(char *str)
 {
 	char **args = malloc(sizeof(char *) * 100);
 	int i = 0;

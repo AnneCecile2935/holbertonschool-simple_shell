@@ -20,7 +20,7 @@ int main(void)
 		{
 			print_prompt();
 			str = read_command();
-			tokenize_string(str);
+			args = tokenize_string(str);
 			execute_command(args, environ);
 			free(str);
 			free(args);
