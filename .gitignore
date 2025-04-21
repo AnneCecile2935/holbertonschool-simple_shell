@@ -4,9 +4,6 @@ a.out
 *.out
 *.exe
 
-# Ignorer tous les fichiers sans extension (considérés comme exécutables)
-[^.]*
-
 # Autoriser les fichiers source et README
 !*.c
 !*.h
