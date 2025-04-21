@@ -4,6 +4,21 @@
 
 # 🐚 Simple Shell - README
 
+## 📑 Table of Contents
+
+- [📚 Resources](#-resources)
+- [🎯 Learning Objectives](#-learning-objectives)
+- [📌 Requirements](#-requirements)
+- [🧾 More Info](#-more-info)
+- [✅ Allowed Functions](#-allowed-functions)
+- [🛠️ Compilation](#-compilation)
+- [🧪 Testing](#-testing)
+- [🧪 Checks](#-checks)
+- [📊 Flowchart](#-flowchart)
+- [👥 Authors](#-authors)
+
+---
+
 ## 📚 Resources
 
 ### 📖 Read or Watch
@@ -21,7 +36,7 @@
 
 ## 🎯 Learning Objectives
 
-At the end of this project, you are expected to be able to explain to anyone, without the help of Google:
+By the end of this project, you should be able to explain to anyone, without using Google:
 
 ### 🧠 General
 
@@ -86,7 +101,7 @@ julien@ubuntu:/# echo "qwerty" | ./hsh
 
 ---
 
-## ✅ List of Allowed Functions and System Calls
+## ✅ Allowed Functions
 
 - All functions from `string.h`
 - `access`, `chdir`, `close`, `closedir`
@@ -101,7 +116,7 @@ julien@ubuntu:/# echo "qwerty" | ./hsh
 
 ## 🛠️ Compilation
 
-Your shell will be compiled using:
+Compile your shell using:
 
 ```sh
 gcc -Wall -Werror -Wextra -pedantic -std=gnu89 *.c -o hsh
@@ -149,37 +164,50 @@ A checker will be released before the deadline. All students are encouraged to c
 
 After the deadline, you must fork the repo (if it's not on your GitHub account) to be graded.
 
+---
+
+## 📊 Flowchart
+
 ```mermaid
 flowchart TD
 
     A[Simple_shell] --> B[Start]
-    B --> C{Commande entrée?}
-    C -- non --> B
-    C -- oui --> D[Lire la commande]
-    D --> E{Commande est-elle vide?}
-    E -- oui --> B
-    E -- non --> F[Découper la commande en arguments]
+    B --> C{Command entered?}
+    C -- no --> B
+    C -- yes --> D[Read command]
+    D --> E{Is command empty?}
+    E -- yes --> B
+    E -- no --> F[Tokenize command into arguments]
     F --> G{Built-in?}
-    G -- oui --> H[Exécuter built-in]
-    G -- non --> I[Créer processus enfant avec fork]
-    H --> I1{Commande 'exit'?}
-    I1 -- oui --> J[Quitter le shell]
-    I1 -- non --> K[Exécuter commande built-in]
-    I --> L{Fork réussi?}
-    L -- non --> M[Afficher erreur avec perror]
-    L -- oui --> N[Exécuter commande avec execve]
-    N --> O{execve réusii?}
-    O -- non --> P[Afficher erreur avec perror]
-    O -- oui --> S[Afficher le résultat]
-    I -- oui --> Q[Attendre fin du processus enfant]
-  K --> R[Libérer mémoire]
-    M --> R[Libérer mémoire]
-    P --> R[Libérer mémoire]
-    Q --> R[Libérer mémoire]
-    S --> R[Libérer mémoire]
-    R --> B[Demander une nouvelle commande]
-    subgraph Divers
-        R1[Allocation mémoire]
-        R2[Libération mémoire]
+    G -- yes --> H[Execute built-in]
+    G -- no --> I[Create child process with fork]
+    H --> I1{Command 'exit'?}
+    I1 -- yes --> J[Exit shell]
+    I1 -- no --> K[Execute built-in command]
+    I --> L{Was fork successful?}
+    L -- no --> M[Print error using perror]
+    L -- yes --> N[Execute command with execve]
+    N --> O{Was execve successful?}
+    O -- no --> P[Print error with perror]
+    O -- yes --> S[Print result]
+    I -- yes --> Q[Wait for child process to finish]
+  K --> R[Free memory]
+    M --> R[Free memory]
+    P --> R[Free memory]
+    Q --> R[Free memory]
+    S --> R[Free memory]
+    R --> B[Ask for new command]
+    subgraph Misc
+        R1[Memory allocation]
+        R2[Memory deallocation]
     end
-	```
+```
+
+---
+
+## 👥 Authors
+
+This project was created and maintained by:
+
+- [AnneCecile2935](https://github.com/AnneCecile2935)
+- [BenoitMain](https://github.com/BenoitMain)
