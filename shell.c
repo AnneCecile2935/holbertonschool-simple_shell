@@ -2,18 +2,21 @@
 #include <string.h>
 
 /**
- * main - Programme de test pour la fonction getline.
+ * main - Entry point of the shell program
+ * @argc: Argument count (unused)
+ * @argv: Argument vector, used for shell name in error messages
  *
- * Return: 0 en cas de succès, 1 en cas d'erreur.
+ * Return: 0 on success
  */
-int main(void)
+int main(int argc, char **argv)
 {
 	int interactive = interactive_shell();
-	char *str;
-	char **args;
+	char *str = NULL;
+	char **args = NULL;
+	char *command_path;
 
-	str = NULL;
-	args = NULL;
+	(void)argc; /* unused, but avoids compiler warning */
+
 	if (interactive)
 	{
 		while (1)
@@ -21,21 +24,19 @@ int main(void)
 			print_prompt();
 			str = read_command();
 			args = tokenize_string(str);
-			execute_command(args, environ);
+			if (args[0])
+			execute_command(args, environ, argv[0]);
 			free(args);
 			free(str);
 		}
 	}
 	else
-		{
-			str = read_command();
-			args = tokenize_string(str);
-			execute_command(args, environ);
-			free(args);
-			free(str);
-		}
-		return (0);
+	{
+		str = read_command();
+		args = tokenize_string(str);
+		execute_command(args, environ, argv[0]);
+		free(args);
+		free(str);
+	}
+	return (0);
 }
-
-
-
