@@ -41,12 +41,8 @@ void print_path(void)
 {
 	char *path = _getenv("PATH");
 
-		if (path == NULL || path[0] == '\0')
-		{
-			fprintf(stderr, "Path variable is not set or is empty\n");
-			return;
-		}
-	printf("%s\n", path);
+	if (path)
+		printf("%s\n", path);
 }
 
 /**
@@ -111,4 +107,6 @@ void execute_command(char **args, char **envp, char *shell)
 		run_command(buffer_path, args, envp, shell);
 		return;
 	}
+
+	fprintf(stderr, "%s: 1: %s: not found\n", shell, args[0]);
 }
