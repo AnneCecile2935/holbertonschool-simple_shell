@@ -22,12 +22,19 @@ int main(void)
 			str = read_command();
 			args = tokenize_string(str);
 			execute_command(args, environ);
-			free(str);
 			free(args);
-
+			free(str);
 		}
 	}
-	return (0);
+	else
+		{
+			str = read_command();
+			args = tokenize_string(str);
+			execute_command(args, environ);
+			free(args);
+			free(str);
+		}
+		return (0);
 }
 
 

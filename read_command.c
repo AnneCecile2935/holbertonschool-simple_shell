@@ -7,7 +7,6 @@
 #include <sys/types.h>
 /**
  * read_command - Reads a line of input from the user.
- * @len: Pointer to a size_t that will store the allocated buffer size.
  *
  * Description: This function uses getline to read a line from standard input,
  * removes the trailing newline character if present, and returns the input
@@ -95,6 +94,5 @@ char **tokenize_string(char *str)
 		copy = strtok(NULL, div);
 	}
 	args[i] = NULL;
-	
 	return (args);
 }
