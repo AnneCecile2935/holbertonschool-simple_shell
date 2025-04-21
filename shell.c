@@ -13,7 +13,7 @@ int main(int argc, char **argv)
 	int interactive = interactive_shell();
 	char *str = NULL;
 	char **args = NULL;
-	char *command_path;
+
 
 	(void)argc; /* unused, but avoids compiler warning */
 
@@ -24,7 +24,6 @@ int main(int argc, char **argv)
 			print_prompt();
 			str = read_command();
 			args = tokenize_string(str);
-			if (args[0])
 			execute_command(args, environ, argv[0]);
 			free(args);
 			free(str);
