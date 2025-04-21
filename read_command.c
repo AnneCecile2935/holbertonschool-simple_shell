@@ -48,35 +48,40 @@ char *read_command(void)
 	return (line);
 }
 /**
- * execute_command - function to execute à partir d'un tableau d'arguments
- * @args: tableau de commande.
- * @envp: Pointeur vers tableau de variable d'environnement.
- * Return: Nothing.
+ * execute_command - Executes a command using fork and execve
+ * @args: Array of command and arguments
+ * @envp: Environment variables
+ * @shell: Name of the shell (argv[0]), used in error messages
+ *
+ * Return: Nothing
  */
-void execute_command(char **args, char **envp)
+void execute_command(char **args, char **envp, char *shell)
 {
 	pid_t pid_child;
 	int status;
 
 	if (args[0] == NULL)
-	return;
-pid_child = fork();
-if (pid_child < 0)
-{
-	perror("processus enfant a échoué");
-	exit(EXIT_FAILURE);
+		return;
+
+	pid_child = fork();
+
+	if (pid_child < 0)
+	{
+		perror("fork failed");
+		exit(EXIT_FAILURE);
+	}
+	else if (pid_child == 0)
+	{
+		execve(args[0], args, envp);
+		perror(shell);
+		exit(EXIT_FAILURE);
+	}
+	else
+	{
+		waitpid(pid_child, &status, 0);
+	}
 }
-else if (pid_child == 0)
-{
-	execve(args[0], args, envp);
-	perror("./shell");
-	exit(EXIT_FAILURE);
-}
-else
-{
-	waitpid(pid_child, &status, 0);
-}
-}
+
 /**
  * tokenize_string - Tokenizes a string into arguments separated by spaces
  * @str: The string to tokenize
