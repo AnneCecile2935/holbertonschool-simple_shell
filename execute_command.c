@@ -4,12 +4,13 @@
 #include <unistd.h>
 #include <sys/wait.h>
 #include <stdio.h>
+
 /**
  * run_command - Forks and executes a command
  * @cmd: Path to command
- * @args: Arguments
+ * @args: Arguments array
  * @envp: Environment variables
- * @shell: Program name (for error display)
+ * @shell: Program name (for error messages)
  */
 void run_command(char *cmd, char **args, char **envp, char *shell)
 {
@@ -35,7 +36,7 @@ void run_command(char *cmd, char **args, char **envp, char *shell)
 }
 
 /**
- * print_path - Handles printing the PATH when "path" is typed
+ * print_path - Prints the value of the PATH environment variable
  */
 void print_path(void)
 {
@@ -46,11 +47,11 @@ void print_path(void)
 }
 
 /**
- * find_command_in_path - Searches for executable in PATH
- * @command: Command to search for
- * @full_path: Buffer to store the full path if found
+ * find_command_in_path - Searches for an executable in PATH directories
+ * @command: Command to locate
+ * @full_path: Buffer to store full path if found
  *
- * Return: 1 if found, 0 if not
+ * Return: 1 if command is found and executable, 0 otherwise
  */
 int find_command_in_path(char *command, char *full_path)
 {
@@ -64,7 +65,7 @@ int find_command_in_path(char *command, char *full_path)
 		return (0);
 
 	token = strtok(path_copy, ":");
-	while (token != NULL)
+	while (token)
 	{
 		snprintf(full_path, 1024, "%s/%s", token, command);
 		if (access(full_path, X_OK) == 0)
@@ -77,11 +78,12 @@ int find_command_in_path(char *command, char *full_path)
 	free(path_copy);
 	return (0);
 }
+
 /**
- * execute_command - Handles built-ins and resolves full command path
- * @args: Command and arguments
+ * execute_command - Handles built-ins and executes external commands
+ * @args: Array of command and arguments
  * @envp: Environment variables
- * @shell: Program name
+ * @shell: Shell name (argv[0]), used in error messages
  */
 void execute_command(char **args, char **envp, char *shell)
 {
@@ -89,14 +91,11 @@ void execute_command(char **args, char **envp, char *shell)
 	int index;
 
 	if (args[0] == NULL)
-	{
-		fprintf(stderr, "%s: 1: %s: not found\n", shell, args[0]);
-		exit(127);
-	}
+		return;
 
 	if (strcmp(args[0], "env") == 0)
 	{
-		for (index = 0; environ[index] != NULL; index++)
+		for (index = 0; environ[index]; index++)
 			printf("%s\n", environ[index]);
 		return;
 	}
@@ -105,16 +104,15 @@ void execute_command(char **args, char **envp, char *shell)
 		print_path();
 		return;
 	}
-
 	if (access(args[0], X_OK) == 0)
 	{
 		run_command(args[0], args, envp, shell);
 		return;
 	}
-
 	if (find_command_in_path(args[0], buffer_path))
 	{
 		run_command(buffer_path, args, envp, shell);
 		return;
 	}
+	fprintf(stderr, "%s: 1: %s: not found\n", shell, args[0]);
 }
