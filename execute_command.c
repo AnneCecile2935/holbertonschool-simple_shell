@@ -17,7 +17,7 @@ void run_command(char *cmd, char **args, char **envp, char *shell)
 	int status;
 
 	pid = fork();
-	if (pid < 0)
+	if (pid == -1)
 	{
 		perror("fork failed");
 		exit(EXIT_FAILURE);
