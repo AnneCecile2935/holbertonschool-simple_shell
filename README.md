@@ -162,7 +162,47 @@ hsh main.c shell.c test_ls_2
 
 A checker will be released before the deadline. All students are encouraged to collaborate to build a test suite for normal and edge cases.
 
-After the deadline, you must fork the repo (if it's not on your GitHub account) to be graded.
+After the deadline, you must fork the repo (if it's not on your GitHub account) to be g## Installation Steps
+
+1. **Clone the Repository**
+
+```bash
+   git clone https://github.com/AnneCecile2935/holbertonschool-simple_shell.git
+   cd holbertonschool-simple_shell
+```
+
+---
+
+#### 2. Prepare the Installation Script
+
+```bash
+chmod +x install_man_page.sh
+```
+
+#### 3. Run the Installation Script
+
+```bash
+sudo ./install_man_page.sh
+```
+
+#### Verifying Installation
+
+```bash
+man myshell
+```
+
+### Troubleshooting
+
+- Ensure necessary permissions
+- Verify script location
+- Check `mandb` installation
+
+### Uninstallation
+
+```bash
+sudo rm /usr/local/share/man/man1/myshell.1.gz
+sudo mandb
+```
 
 ---
 
