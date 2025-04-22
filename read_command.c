@@ -24,27 +24,25 @@ char *read_command(void)
 	read = getline(&line, &len, stdin);
 	if (read == -1)
 	{
-		if (feof(stdin))
-		{
-			free(line);
-			exit(0);
-		}
-		else
-		{
-			perror("getline");
-			free(line);
-			exit(EXIT_FAILURE);
-		}
+		free(line);
+		exit(0);
 	}
-	for (i = 0; i < read; i++)
+	else
 	{
-		if (line[i] == '\n')
-		{
-			line[i] = '\0';
-			break;
-		}
+		perror("getline");
+		free(line);
+		exit(EXIT_FAILURE);
 	}
-	return (line);
+}
+for (i = 0; i < read; i++)
+{
+	if (line[i] == '\n')
+	{
+		line[i] = '\0';
+		break;
+	}
+}
+return (line);
 }
 /**
  * tokenize_string - Tokenizes a string into arguments separated by spaces
