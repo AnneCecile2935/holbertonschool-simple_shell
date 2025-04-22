@@ -41,8 +41,12 @@ void print_path(void)
 {
 	char *path = _getenv("PATH");
 
-	if (path)
-		printf("%s\n", path);
+		if (path == NULL || path[0] == '\0')
+		{
+			fprintf(stderr, "Path variable is not set or is empty\n");
+			return;
+		}
+	printf("%s\n", path);
 }
 
 /**
