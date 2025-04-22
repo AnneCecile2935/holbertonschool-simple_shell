@@ -13,20 +13,23 @@ int main(int argc, char **argv)
 	int interactive = interactive_shell();
 	char *str = NULL;
 	char **args = NULL;
-	(void)argc;
 
+	(void)argc;
 	if (interactive)
 	{
 		while (1)
 		{
 			print_prompt();
 			str = read_command();
+			if (str == NULL)
+			{
+				write(STDOUT_FILENO, "\n", 1);
+				break;
+			}
 			args = tokenize_string(str);
 			if (args[0] && strcmp(args[0], "exit") == 0)
 			{
-				free(args);
-				free(str);
-				exit(0);
+				exit_shell(args, str);
 			}
 			execute_command(args, environ, argv[0]);
 			free(args);
@@ -37,17 +40,14 @@ int main(int argc, char **argv)
 	{
 		while ((str = read_command()) != NULL)
 		{
-			args = tokenize_string(str);
-			if (args[0] && strcmp(args[0], "exit") == 0)
+			if (str && *str)
 			{
+				args = tokenize_string(str);
+				execute_command(args, environ, argv[0]);
 				free(args);
-				free(str);
-				exit(0);
 			}
-			execute_command(args, environ, argv[0]);
-			free(args);
 			free(str);
 		}
 	}
-	return (0);
+	return (EXIT_SUCCESS);
 }
