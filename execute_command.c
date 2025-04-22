@@ -89,7 +89,10 @@ void execute_command(char **args, char **envp, char *shell)
 	int index;
 
 	if (args[0] == NULL)
-		return;
+	{
+		fprintf(stderr, "%s: 1: %s: not found\n", shell, args[0]);
+		exit(127);
+	}
 
 	if (strcmp(args[0], "env") == 0)
 	{
@@ -114,6 +117,4 @@ void execute_command(char **args, char **envp, char *shell)
 		run_command(buffer_path, args, envp, shell);
 		return;
 	}
-
-	fprintf(stderr, "%s: 1: %s: not found\n", shell, args[0]);
 }
