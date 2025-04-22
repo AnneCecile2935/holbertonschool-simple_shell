@@ -86,10 +86,17 @@ int find_command_in_path(char *command, char *full_path)
 void execute_command(char **args, char **envp, char *shell)
 {
 	char buffer_path[1024];
+	int index;
 
 	if (args[0] == NULL)
 		return;
 
+	if (strcmp(args[0], "env") == 0)
+	{
+		for (index = 0; environ[index] != NULL; index++)
+			printf("%s\n", environ[index]);
+		return;
+	}
 	if (strcmp(args[0], "path") == 0)
 	{
 		print_path();
