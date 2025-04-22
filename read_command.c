@@ -12,7 +12,7 @@
  * removes the trailing newline character if present, and returns the input
  * string.
  *
- * Return: Pointer to the input string. Exits on failure.
+ * Return: Pointer to the input string. NULL if EOF.
  */
 char *read_command(void)
 {
@@ -25,14 +25,9 @@ char *read_command(void)
 	if (read == -1)
 	{
 		free(line);
-		exit(0);
+		return (NULL);
 	}
-	else
-	{
-		perror("getline");
-		free(line);
-		exit(EXIT_FAILURE);
-	}
+
 	for (i = 0; i < read; i++)
 	{
 		if (line[i] == '\n')
@@ -43,6 +38,7 @@ char *read_command(void)
 	}
 	return (line);
 }
+
 /**
  * tokenize_string - Tokenizes a string into arguments separated by spaces
  * @str: The string to tokenize

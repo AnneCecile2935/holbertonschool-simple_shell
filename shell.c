@@ -14,7 +14,7 @@ int main(int argc, char **argv)
 	char *str = NULL;
 	char **args = NULL;
 
-	(void)argc; /* unused, but avoids compiler warning */
+	(void)argc;
 
 	if (interactive)
 	{
@@ -22,6 +22,12 @@ int main(int argc, char **argv)
 		{
 			print_prompt();
 			str = read_command();
+			if (str == NULL)
+			{
+				write(STDOUT_FILENO, "\n", 1);
+				break;
+
+			}
 			args = tokenize_string(str);
 			execute_command(args, environ, argv[0]);
 			free(args);
@@ -41,5 +47,5 @@ int main(int argc, char **argv)
 			free(str);
 		}
 	}
-	return (0);
+	return (EXIT_SUCCESS);
 }
