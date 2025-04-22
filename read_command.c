@@ -33,16 +33,15 @@ char *read_command(void)
 		free(line);
 		exit(EXIT_FAILURE);
 	}
-}
-for (i = 0; i < read; i++)
-{
-	if (line[i] == '\n')
+	for (i = 0; i < read; i++)
 	{
-		line[i] = '\0';
-		break;
+		if (line[i] == '\n')
+		{
+			line[i] = '\0';
+			break;
+		}
 	}
-}
-return (line);
+	return (line);
 }
 /**
  * tokenize_string - Tokenizes a string into arguments separated by spaces
