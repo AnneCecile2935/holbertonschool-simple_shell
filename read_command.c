@@ -27,7 +27,7 @@ char *read_command(void)
 	if (feof(stdin))
 	{
 		free(line);
-		write(1, "\n", 1);
+		write(STDOUT_FILENO, "\n", 1);
 		exit(0);
 	}
 	else
