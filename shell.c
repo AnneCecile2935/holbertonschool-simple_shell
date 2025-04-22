@@ -32,9 +32,12 @@ int main(int argc, char **argv)
 	{
 		while ((str = read_command()) != NULL)
 		{
-			args = tokenize_string(str);
-			execute_command(args, environ, argv[0]);
-			free(args);
+			if (str && *str)
+			{
+				args = tokenize_string(str);
+				execute_command(args, environ, argv[0]);
+				free(args);
+			}
 			free(str);
 		}
 	}
