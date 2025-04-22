@@ -22,5 +22,5 @@ int interactive_shell(void)
 
 void print_prompt(void)
 {
-	write(1, "🔒 ", 5);
+	write(1, "$ ", 2);
 }
