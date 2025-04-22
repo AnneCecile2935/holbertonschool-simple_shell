@@ -23,20 +23,19 @@ char *read_command(void)
 
 	read = getline(&line, &len, stdin);
 	if (read == -1)
-{
-	if (feof(stdin))
 	{
-		free(line);
-		write(STDOUT_FILENO, "\n", 1);
-		exit(0);
+		if (feof(stdin))
+		{
+			free(line);
+			exit(0);
+		}
+		else
+		{
+			perror("getline");
+			free(line);
+			exit(EXIT_FAILURE);
+		}
 	}
-	else
-	{
-		perror("getline");
-		free(line);
-		exit(EXIT_FAILURE);
-	}
-}
 	for (i = 0; i < read; i++)
 	{
 		if (line[i] == '\n')
