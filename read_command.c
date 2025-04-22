@@ -67,3 +67,20 @@ char **tokenize_string(char *str)
 	args[i] = NULL;
 	return (args);
 }
+/**
+ * exit_shell - Frees memory and exits the shell
+ * @args: Array of arguments to free
+ * @str: Input string to free
+ *
+ * Return: Nothing, exits the program
+ */
+void exit_shell(char **args, char *str)
+{
+	if (args)
+	{
+		free(args);
+	}
+	if (str)
+		free(str);
+	exit(0);
+}
