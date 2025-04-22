@@ -164,7 +164,9 @@ A checker will be released before the deadline. All students are encouraged to c
 
 After the deadline, you must fork the repo (if it's not on your GitHub account) to be g## Installation Steps
 
-1. **Clone the Repository**
+## 📋 Installation Guide
+
+### 1. Clone the Repository
 
 ```bash
    git clone https://github.com/AnneCecile2935/holbertonschool-simple_shell.git
