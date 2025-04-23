@@ -1,0 +1,69 @@
+.TH SHELL 1 "April 2025" "Simple Shell" "User Commands"
+.SH NAME
+shell \- a simple Unix command-line shell written in C
+.SH SYNOPSIS
+.B shell
+.RI [ script_file ]
+.SH DESCRIPTION
+.B shell
+is a simple Unix command-line interpreter that reads, parses, and executes user commands, either interactively or from a script. It supports command execution, basic built-ins, PATH resolution, and minimal signal handling.
+.SH MODES
+.TP
+.B Interactive mode
+If launched without arguments and with a connected terminal, the shell enters an interactive prompt loop, displaying a prompt and waiting for user input.
+.TP
+.B Non-interactive mode
+If standard input is redirected or a script is provided, the shell reads commands without prompting.
+.SH BUILT-IN COMMANDS
+.TP
+.B exit [status]
+Exit the shell with the optional exit \fIstatus\fR. If not specified, the last command's status is used.
+.TPYouenn
+.B env
+Displays the current environment variables.
+.SH FEATURES
+.TP
+.B Command execution
+Commands are searched using the PATH environment variable. Commands with slashes (e.g., \fI./myprog\fR or \fI/bin/ls\fR) are executed directly.
+.TP
+.B PATH resolution
+Commands without a slash are resolved using the current \fBPATH\fR variable. If \fBPATH\fR is empty or not set, commands are not found.
+.TP
+.B Error handling
+If a command is not found, an error is printed to \fBstderr\fR in the format:
+.nf
+shell: 1: command: not found
+.fi
+The exit status is set to 127.
+.TP
+.B Signal handling
+The shell handles \fBSIGINT\fR (Ctrl+C) and avoids exiting on it during interactive mode.
+.SH RETURN VALUES
+Returns the exit status of the last executed command. If a command is not found, the return code is 127.
+.SH USAGE EXAMPLES
+.TP
+.B Interactive mode:
+.RS
+$ ./shell
+.br
+$ ls -l
+.br
+$ env
+.br
+$ exit 0
+.RE
+.TP
+.B Non-interactive mode:
+.RS
+$ echo "echo Hello world" > script.sh
+.br
+$ ./shell < script.sh
+.RE
+.SH FILES
+.TP
+.B ./shell
+Compiled shell executable
+.SH AUTHORS
+Developed by Anne-Cécile COLLETER et Benoit MAINGON.
+.SH SEE ALSO
+sh(1), bash(1), execve(2), fork(2), getenv(3), signal(2)
