@@ -11,6 +11,7 @@
  * @args: Arguments array.
  * @envp: Environment variables.
  * @shell: Program name (for error messages).
+ * Return: Error code
  */
 int run_command(char *cmd, char **args, char **envp, char *shell)
 {
@@ -25,6 +26,7 @@ int run_command(char *cmd, char **args, char **envp, char *shell)
 	}
 	else if (pid == 0)
 	{
+		printf("Im forking la, laisse moi dormir");
 		if (execve(cmd, args, envp) == -1)
 		{
 			perror(shell);
@@ -39,7 +41,7 @@ int run_command(char *cmd, char **args, char **envp, char *shell)
 		else
 			return (1);
 	}
-	return (0);
+	return (1);
 }
 
 /**
@@ -64,7 +66,7 @@ int find_command_in_path(char *command, char *full_path)
 {
 	char *path = _getenv("PATH"), *path_copy, *token;
 
-	if (!path)
+	if (!path || path[0] == '\0')
 		return (0);
 
 	path_copy = strdup(path);
@@ -85,12 +87,12 @@ int find_command_in_path(char *command, char *full_path)
 	free(path_copy);
 	return (0);
 }
-
 /**
  * execute_command - Handles built-ins and executes external commands.
  * @args: Array of command and arguments.
  * @envp: Environment variables.
  * @shell: Shell name (argv[0]), used in error messages.
+ * Return: error code.
  */
 int execute_command(char **args, char **envp, char *shell)
 {
@@ -117,11 +119,6 @@ int execute_command(char **args, char **envp, char *shell)
 			return (run_command(args[0], args, envp, shell));
 		fprintf(stderr, "%s: 1: %s: not found\n", shell, args[0]);
 		return (127);
-	}
-	if (access(args[0], X_OK) == 0)
-	{
-
-		return (run_command(args[0], args, envp, shell));
 	}
 	if (find_command_in_path(args[0], buffer_path))
 	{
