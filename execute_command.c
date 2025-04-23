@@ -6,13 +6,13 @@
 #include <stdio.h>
 
 /**
- * run_command - Forks and executes a command
- * @cmd: Path to command
- * @args: Arguments array
- * @envp: Environment variables
- * @shell: Program name (for error messages)
+ * run_command - Forks and executes a command.
+ * @cmd: Path to command.
+ * @args: Arguments array.
+ * @envp: Environment variables.
+ * @shell: Program name (for error messages).
  */
-void run_command(char *cmd, char **args, char **envp, char *shell)
+int run_command(char *cmd, char **args, char **envp, char *shell)
 {
 	pid_t pid;
 	int status;
@@ -27,16 +27,20 @@ void run_command(char *cmd, char **args, char **envp, char *shell)
 	{
 		execve(cmd, args, envp);
 		perror(shell);
-		exit(EXIT_FAILURE);
+		exit(127);
 	}
 	else
 	{
 		waitpid(pid, &status, 0);
+		if (WIFEXITED(status))
+		return (WEXITSTATUS(status));
+		else
+		return (1);
 	}
 }
 
 /**
- * print_path - Prints the value of the PATH environment variable
+ * print_path - Prints the value of the PATH environment variable.
  */
 void print_path(void)
 {
@@ -47,11 +51,11 @@ void print_path(void)
 }
 
 /**
- * find_command_in_path - Searches for an executable in PATH directories
- * @command: Command to locate
- * @full_path: Buffer to store full path if found
+ * find_command_in_path - Searches for an executable in PATH directories.
+ * @command: Command to locate.
+ * @full_path: Buffer to store full path if found.
  *
- * Return: 1 if command is found and executable, 0 otherwise
+ * Return: 1 if command is found and executable, 0 otherwise.
  */
 int find_command_in_path(char *command, char *full_path)
 {
@@ -80,39 +84,40 @@ int find_command_in_path(char *command, char *full_path)
 }
 
 /**
- * execute_command - Handles built-ins and executes external commands
- * @args: Array of command and arguments
- * @envp: Environment variables
- * @shell: Shell name (argv[0]), used in error messages
+ * execute_command - Handles built-ins and executes external commands.
+ * @args: Array of command and arguments.
+ * @envp: Environment variables.
+ * @shell: Shell name (argv[0]), used in error messages.
  */
-void execute_command(char **args, char **envp, char *shell)
+int execute_command(char **args, char **envp, char *shell)
 {
 	char buffer_path[1024];
 	int index;
 
 	if (args[0] == NULL)
-		return;
+		return (0);
 
 	if (strcmp(args[0], "env") == 0)
 	{
 		for (index = 0; environ[index]; index++)
 			printf("%s\n", environ[index]);
-		return;
+		return (0);
 	}
 	if (strcmp(args[0], "path") == 0)
 	{
 		print_path();
-		return;
+		return (0);
 	}
 	if (access(args[0], X_OK) == 0)
 	{
-		run_command(args[0], args, envp, shell);
-		return;
+
+		return (run_command(args[0], args, envp, shell));
 	}
 	if (find_command_in_path(args[0], buffer_path))
 	{
-		run_command(buffer_path, args, envp, shell);
-		return;
+
+		return (run_command(buffer_path, args, envp, shell));
 	}
 	fprintf(stderr, "%s: 1: %s: not found\n", shell, args[0]);
+	return (127);
 }
