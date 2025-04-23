@@ -40,10 +40,10 @@ char *read_command(void)
 }
 
 /**
- * tokenize_string - Tokenizes a string into arguments separated by spaces
- * @str: The string to tokenize
+ * tokenize_string - Tokenizes a string into arguments separated by spaces.
+ * @str: The string to tokenize.
  *
- * Return: A NULL-terminated array of strings (tokens), or NULL on failure
+ * Return: A NULL-terminated array of strings (tokens), or NULL on failure.
  */
 char **tokenize_string(char *str)
 {
@@ -68,19 +68,24 @@ char **tokenize_string(char *str)
 	return (args);
 }
 /**
- * exit_shell - Frees memory and exits the shell
- * @args: Array of arguments to free
- * @str: Input string to free
+ * exit_shell - Frees memory and exits the shell.
+ * @args: Array of arguments to free.
+ * @str: Input string to free.
+ * @last_status: Exit status to use if no explicit argument is provided.
  *
- * Return: Nothing, exits the program
+ * Return: Nothing, exits the program.
  */
-void exit_shell(char **args, char *str)
+void exit_shell(char **args, char *str, int last_status)
 {
-	if (args)
-	{
-		free(args);
-	}
-	if (str)
-		free(str);
-	exit(0);
+
+	int exit_status = 0;
+
+	if (args[1])
+		exit_status = atoi(args[1]);
+	else
+		exit_status = last_status;
+
+	free(args);
+	free(str);
+	exit(exit_status);
 }
