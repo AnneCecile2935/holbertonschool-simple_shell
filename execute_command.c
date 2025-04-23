@@ -11,6 +11,7 @@
  * @args: Arguments array.
  * @envp: Environment variables.
  * @shell: Program name (for error messages).
+ * Return: Error code
  */
 int run_command(char *cmd, char **args, char **envp, char *shell)
 {
@@ -91,6 +92,7 @@ int find_command_in_path(char *command, char *full_path)
  * @args: Array of command and arguments.
  * @envp: Environment variables.
  * @shell: Shell name (argv[0]), used in error messages.
+ * Return: error code.
  */
 int execute_command(char **args, char **envp, char *shell)
 {
