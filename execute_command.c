@@ -25,18 +25,21 @@ int run_command(char *cmd, char **args, char **envp, char *shell)
 	}
 	else if (pid == 0)
 	{
-		execve(cmd, args, envp);
-		perror(shell);
-		exit(127);
+		if (execve(cmd, args, envp) == -1)
+		{
+			perror(shell);
+			exit(127);
+		}
 	}
 	else
 	{
 		waitpid(pid, &status, 0);
 		if (WIFEXITED(status))
-		return (WEXITSTATUS(status));
+			return (WEXITSTATUS(status));
 		else
-		return (1);
+			return (1);
 	}
+	return (0);
 }
 
 /**
