@@ -108,6 +108,13 @@ int execute_command(char **args, char **envp, char *shell)
 		print_path();
 		return (0);
 	}
+	if (strchr(args[0], '/'))
+	{
+		if (access(args[0], X_OK) == 0)
+			return (run_command(args[0], args, envp, shell));
+		fprintf(stderr, "%s: 1: %s: not found\n", shell, args[0]);
+		return (127);
+	}
 	if (access(args[0], X_OK) == 0)
 	{
 
