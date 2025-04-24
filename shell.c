@@ -80,7 +80,7 @@ void handle_non_interactive_mode(const char *shell_name)
 int main(int argc, char **argv)
 {
 	(void)argc;
-	signal(SIGINT, sigint_handler);
+	signal(SIGINT, sigint_handler); /*Ctrl +C*/
 
 	if (interactive_shell())
 	{

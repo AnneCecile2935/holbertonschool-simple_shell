@@ -19,12 +19,13 @@ int run_command(char *cmd, char **args, char **envp, char *shell)
 	int status;
 
 	pid = fork();
-	if (pid == -1)
+	if (pid == -1) /*si le fork echoue*/
 	{
 		perror("fork failed");
 		exit(EXIT_FAILURE);
 	}
-	else if (pid == 0)
+	else if (pid == 0) /*le fork reussi, execve remplace le*/
+	/*processus courant dans le programme*/
 	{
 		printf("Im forking la, laisse moi dormir");
 		if (execve(cmd, args, envp) == -1)
@@ -35,13 +36,13 @@ int run_command(char *cmd, char **args, char **envp, char *shell)
 	}
 	else
 	{
-		waitpid(pid, &status, 0);
-		if (WIFEXITED(status))
+		waitpid(pid, &status, 0); /*processus parent attend que l'enfant se termine*/
+		if (WIFEXITED(status))	  /*l'enfant termine normalement*/
 			return (WEXITSTATUS(status));
 		else
-			return (1);
+			return (1); /*l'enfant se termine anormalement*/
 	}
-	return (1);
+	return (1); /*sécurité*/
 }
 
 /**
@@ -62,14 +63,16 @@ void print_path(void)
  *
  * Return: 1 if command is found and executable, 0 otherwise.
  */
-int find_command_in_path(char *command, char *full_path)
+int find_command_in_path(char *command, char *full_path, char *shell)
 {
 	char *path = _getenv("PATH"), *path_copy, *token;
-
-	if (!path || path[0] == '\0')
+	/*on recupere la variable PATH*/
+	if (!path || path[0] == '\0') /*si PATH est vide*/
+	{
+		fprintf(stderr, "%s: 1: %s: not found\n", shell, command);
 		return (0);
-
-	path_copy = strdup(path);
+	}
+	path_copy = strdup(path); /*copie du PATH qui sera modif avec strtok*/
 	if (!path_copy)
 		return (0);
 
@@ -77,12 +80,13 @@ int find_command_in_path(char *command, char *full_path)
 	while (token)
 	{
 		snprintf(full_path, 1024, "%s/%s", token, command);
-		if (access(full_path, X_OK) == 0)
+		/*construction chemin de chaque token*/
+		if (access(full_path, X_OK) == 0) /*verif executable*/
 		{
 			free(path_copy);
-			return (1);
+			return (1); /*commande trouvee*/
 		}
-		token = strtok(NULL, ":");
+		token = strtok(NULL, ":"); /*continue pour chaque token*/
 	}
 	free(path_copy);
 	return (0);
@@ -120,9 +124,8 @@ int execute_command(char **args, char **envp, char *shell)
 		fprintf(stderr, "%s: 1: %s: not found\n", shell, args[0]);
 		return (127);
 	}
-	if (find_command_in_path(args[0], buffer_path))
+	if (find_command_in_path(args[0], buffer_path, shell))
 	{
-
 		return (run_command(buffer_path, args, envp, shell));
 	}
 	fprintf(stderr, "%s: 1: %s: not found\n", shell, args[0]);

@@ -22,13 +22,14 @@ char *read_command(void)
 	ssize_t i;
 
 	read = getline(&line, &len, stdin);
-	if (read == -1)
+	/*lis juque \n ou EOF*/
+	if (read == -1) /*rien de lu*/
 	{
 		free(line);
 		return (NULL);
 	}
 
-	for (i = 0; i < read; i++)
+	for (i = 0; i < read; i++) /*suppr retour ligne, remplace \n par '\0'*/
 	{
 		if (line[i] == '\n')
 		{

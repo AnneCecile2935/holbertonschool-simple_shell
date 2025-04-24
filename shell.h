@@ -15,7 +15,7 @@ char *_getenv(const char *path);
 void print_path(void);
 void exit_shell(char **args, char *str, int last_status);
 int run_command(char *cmd, char **args, char **envp, char *shell);
-int find_command_in_path(char *command, char *full_path);
+int find_command_in_path(char *command, char *full_path, char *shell);
 int execute_command(char **args, char **envp, char *shell);
 char **tokenize_string(char *str);
 void sigint_handler(int signum);
