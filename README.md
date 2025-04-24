@@ -119,7 +119,7 @@ julien@ubuntu:/# echo "qwerty" | ./hsh
 Compile your shell using:
 
 ```sh
-gcc -Wall -Werror -Wextra -pedantic -std=gnu89 *.c -o hsh
+gcc -Wall -Werror -Wextra -pedantic -std=gnu89 *.c -o shell
 ```
 
 ---
@@ -207,6 +207,27 @@ sudo mandb
 ```
 
 ---
+
+## 📖 Manual - How to use the man page
+
+To view the manual page for this shell project, use the following command in your terminal:
+
+```bash
+man shell
+```
+✅ Make sure the man_shell1 file is located at the root of the project directory.
+
+This manual page provides:
+
+A description of the shell
+
+Compilation instructions
+
+Usage guidelines
+
+List of built-in commands (exit, env, cd, etc.)
+
+Examples of shell usage
 
 ## 📊 Flowchart
 
