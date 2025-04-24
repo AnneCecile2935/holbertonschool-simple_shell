@@ -57,77 +57,83 @@ void print_path(void)
 }
 
 /**
- * find_command_in_path - Searches for an executable in PATH directories.
- * @command: Command to locate.
- * @full_path: Buffer to store full path if found.
- *
- * Return: 1 if command is found and executable, 0 otherwise.
- */
+* find_command_in_path - Searches for an executable in PATH directories.
+* @command: Command to locate.
+* @full_path: Buffer to store full path if found.
+* @shell: Shell name (unused here but for consistency)
+
+* Return: 1 if command is found and executable, 0 otherwise.
+*/
 int find_command_in_path(char *command, char *full_path, char *shell)
 {
-	char *path = _getenv("PATH"), *path_copy, *token;
-	/*on recupere la variable PATH*/
-	if (!path || path[0] == '\0') /*si PATH est vide*/
-	{
-		fprintf(stderr, "%s: 1: %s: not found\n", shell, command);
-		return (0);
-	}
-	path_copy = strdup(path); /*copie du PATH qui sera modif avec strtok*/
-	if (!path_copy)
-		return (0);
+   char *path = _getenv("PATH"), *path_copy, *token;
+   (void)shell;
 
-	token = strtok(path_copy, ":");
-	while (token)
-	{
-		snprintf(full_path, 1024, "%s/%s", token, command);
-		/*construction chemin de chaque token*/
-		if (access(full_path, X_OK) == 0) /*verif executable*/
-		{
-			free(path_copy);
-			return (1); /*commande trouvee*/
-		}
-		token = strtok(NULL, ":"); /*continue pour chaque token*/
-	}
-	free(path_copy);
-	return (0);
+   if (!path || path[0] == '\0')
+	   return (0);
+
+   path_copy = strdup(path);
+   if (!path_copy)
+	   return (0);
+
+   token = strtok(path_copy, ":");
+   while (token)
+   {
+	   snprintf(full_path, 1024, "%s/%s", token, command);
+	   if (access(full_path, X_OK) == 0)
+	   {
+		   free(path_copy);
+		   return (1);
+	   }
+	   token = strtok(NULL, ":");
+   }
+
+   free(path_copy);
+   return (0);
 }
 /**
  * execute_command - Handles built-ins and executes external commands.
  * @args: Array of command and arguments.
  * @envp: Environment variables.
  * @shell: Shell name (argv[0]), used in error messages.
- * Return: error code.
+ *
+ * Return: error code (0 = success, 127 = not found, other = error)
  */
 int execute_command(char **args, char **envp, char *shell)
 {
-	char buffer_path[1024];
-	int index;
+    char buffer_path[1024];
+    int index;
 
-	if (args[0] == NULL)
-		return (0);
+    if (args[0] == NULL)
+        return (0);
 
-	if (strcmp(args[0], "env") == 0)
-	{
-		for (index = 0; environ[index]; index++)
-			printf("%s\n", environ[index]);
-		return (0);
-	}
-	if (strcmp(args[0], "path") == 0)
-	{
-		print_path();
-		return (0);
-	}
-	if (strchr(args[0], '/'))
-	{
-		if (access(args[0], X_OK) == 0)
-			return (run_command(args[0], args, envp, shell));
-		fprintf(stderr, "%s: 1: %s: not found\n", shell, args[0]);
-		return (127);
-	}
-	if (find_command_in_path(args[0], buffer_path, shell))
-	{
-		return (run_command(buffer_path, args, envp, shell));
-	}
-	fprintf(stderr, "%s: 1: %s: not found\n", shell, args[0]);
-	return (127);
+    if (strcmp(args[0], "env") == 0)
+    {
+        for (index = 0; environ[index]; index++)
+            printf("%s\n", environ[index]);
+        return (0);
+    }
+
+    if (strcmp(args[0], "path") == 0)
+    {
+        print_path();
+        return (0);
+    }
+
+    if (strchr(args[0], '/'))
+    {
+        if (access(args[0], X_OK) == 0)
+            return (run_command(args[0], args, envp, shell));
+
+        fprintf(stderr, "%s: 1: %s: not found\n", shell, args[0]);
+        return (127);
+    }
+
+    if (find_command_in_path(args[0], buffer_path, shell))
+    {
+        return (run_command(buffer_path, args, envp, shell));
+    }
+
+    fprintf(stderr, "%s: 1: %s: not found\n", shell, args[0]);
+    return (127);
 }

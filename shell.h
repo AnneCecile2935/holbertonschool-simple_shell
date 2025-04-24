@@ -6,8 +6,9 @@
 #include <stdlib.h>
 
 extern char **environ;
-void handle_interactive_mode(const char *shell_name);
-void handle_non_interactive_mode(const char *shell_name);
+
+void handle_interactive_mode(const char *shell_name, int *last_status);
+void handle_non_interactive_mode(const char *shell_name, int *last_status);
 int interactive_shell(void);
 void print_prompt(void);
 char *read_command(void);
