@@ -11,5 +11,5 @@ void sigint_handler(int signum)
 {
 	(void)signum;
 	write(STDOUT_FILENO, "\n$ ", 3);
-	fflush(stdout);
+	fflush(stdout); /*force buffer empty*/
 }

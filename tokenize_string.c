@@ -18,13 +18,13 @@ char **tokenize_string(char *str)
 		return (NULL);
 	}
 
-	copy = strtok(str, div);
+	copy = strtok(str, div);/*store copy of token in copy*/
 
 	while (copy != NULL)
 	{
-		args[i++] = copy;
-		copy = strtok(NULL, div);
+		args[i++] = copy;/*each token store in arg[]*/
+		copy = strtok(NULL, div);/*continue to stroke the string*/
 	}
-	args[i] = NULL;
+	args[i] = NULL;/*end of array*/
 	return (args);
 }

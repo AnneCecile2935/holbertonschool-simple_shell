@@ -14,39 +14,39 @@
  */
 void handle_interactive_mode(const char *shell_name, int *last_status)
 {
-    char *command = NULL;
-    char **args = NULL;
+	char *command = NULL;
+	char **args = NULL;
 
-    while (1)
-    {
-        print_prompt();
-        command = read_command();
-        if (command == NULL)
-        {
-            write(STDOUT_FILENO, "\n", 1);
-            break;
-        }
+	while (1)
+	{
+		print_prompt();
+		command = read_command();
+		if (command == NULL)
+		{
+			write(STDOUT_FILENO, "\n", 1);
+			break;
+		}
 
-        args = tokenize_string(command);
-        if (args == NULL)
-        {
-            free(command);
-            continue;
-        }
+		args = tokenize_string(command);
+		if (args == NULL)
+		{
+			free(command);
+			continue;
+		}
 
-        if (args[0] && strcmp(args[0], "exit") == 0)
-        {
-            exit_shell(args, command, *last_status);
-            free(args);
-            free(command);
-            break;
-        }
+		if (args[0] && strcmp(args[0], "exit") == 0)
+		{
+			exit_shell(args, command, *last_status);
+			free(args);
+			free(command);
+			break;
+		}
 
-        *last_status = execute_command(args, environ, (char *)shell_name);
+		*last_status = execute_command(args, environ, (char *)shell_name);
 
-        free(args);
-        free(command);
-    }
+		free(args);
+		free(command);
+	}
 }
 /**
  * handle_non_interactive_mode - Handles the non-interactive mode of the shell
@@ -55,27 +55,27 @@ void handle_interactive_mode(const char *shell_name, int *last_status)
  */
 void handle_non_interactive_mode(const char *shell_name, int *last_status)
 {
-    char *command = NULL;
-    char **args = NULL;
+	char *command = NULL;
+	char **args = NULL;
 
-    while ((command = read_command()) != NULL)
-    {
-        if (command && *command)
-        {
-            args = tokenize_string(command);
-            if (args != NULL)
-            {
-                if (args[0] && strcmp(args[0], "exit") == 0)
-                {
-                    exit_shell(args, command, *last_status);
-                }
+	while ((command = read_command()) != NULL)
+	{
+		if (command && *command)
+		{
+			args = tokenize_string(command);
+			if (args != NULL)
+			{
+				if (args[0] && strcmp(args[0], "exit") == 0)
+				{
+					exit_shell(args, command, *last_status);
+				}
 
-                *last_status = execute_command(args, environ, (char *)shell_name);
-                free(args);
-            }
-        }
-        free(command);
-    }
+				*last_status = execute_command(args, environ, (char *)shell_name);
+				free(args);
+			}
+		}
+		free(command);
+	}
 }
 /**
  * main - Entry point of the shell program
@@ -86,18 +86,18 @@ void handle_non_interactive_mode(const char *shell_name, int *last_status)
  */
 int main(int argc, char **argv)
 {
-    int last_status;
-    (void)argc;
-    signal(SIGINT, sigint_handler);
+	int last_status;
+	(void)argc;
+	signal(SIGINT, sigint_handler);
 
-    if (interactive_shell())
-    {
-        handle_interactive_mode(argv[0], &last_status);
-    }
-    else
-    {
-        handle_non_interactive_mode(argv[0], &last_status);
-    }
+	if (interactive_shell())
+	{
+		handle_interactive_mode(argv[0], &last_status);
+	}
+	else
+	{
+		handle_non_interactive_mode(argv[0], &last_status);
+	}
 
-    return (last_status);
+	return (last_status);
 }

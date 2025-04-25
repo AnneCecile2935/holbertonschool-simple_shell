@@ -20,6 +20,7 @@ char *_getenv(const char *path)
 		if (strncmp(environ[i], path, len) == 0 && environ[i][len] == '=')
 		{
 			return (environ[i] + len + 1);
+			/*return each value after = of environ*/
 		}
 	}
 	return (NULL);

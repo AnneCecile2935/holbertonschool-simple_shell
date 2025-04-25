@@ -14,7 +14,7 @@ void exit_shell(char **args, char *str, int last_status)
 	int exit_status = 0;
 
 	if (args[1])
-		exit_status = atoi(args[1]);
+		exit_status = atoi(args[1]); /*if arg 1 of exit is number convert*/
 	else
 		exit_status = last_status;
 

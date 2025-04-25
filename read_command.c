@@ -17,14 +17,14 @@ char *read_command(void)
 	ssize_t i;
 
 	read = getline(&line, &len, stdin);
-	/*lis juque \n ou EOF*/
-	if (read == -1) /*rien de lu*/
+	/*read until \n ou EOF*/
+	if (read == -1) /*nothing read*/
 	{
 		free(line);
 		return (NULL);
 	}
 
-	for (i = 0; i < read; i++) /*suppr retour ligne, remplace \n par '\0'*/
+	for (i = 0; i < read; i++) /*delete return line, replace \n par '\0'*/
 	{
 		if (line[i] == '\n')
 		{
