@@ -235,10 +235,10 @@ Examples of shell usage
 flowchart TD
 
     A[Start:] --> B{Is interactive mode?}
-    B -- Yes --> C[handle_interactive_mode]
+    B -- Yes --> C[Display prompt]
     B -- No --> D[handle_non_interactive_mode]
 
-    C --> E[print_prompt]
+    C --> E[Display prompt]
     C --> F[read_command]
     D --> F
 
