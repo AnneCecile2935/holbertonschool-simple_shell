@@ -13,15 +13,14 @@ int run_command(char *cmd, char **args, char **envp, char *shell)
 	int status;
 
 	pid = fork();
-	if (pid == -1) /*si le fork echoue*/
+	if (pid == -1) /*if fork fail*/
 	{
 		perror("fork failed");
 		exit(EXIT_FAILURE);
 	}
-	else if (pid == 0) /*le fork reussi, execve remplace le*/
-	/*processus courant dans le programme*/
+	else if (pid == 0) /*fork succes, execve replace the*/
+	/*current process in program*/
 	{
-		printf("Im forking la, laisse moi dormir");
 		if (execve(cmd, args, envp) == -1)
 		{
 			perror(shell);
@@ -30,11 +29,11 @@ int run_command(char *cmd, char **args, char **envp, char *shell)
 	}
 	else
 	{
-		waitpid(pid, &status, 0); /*processus parent attend que l'enfant se termine*/
-		if (WIFEXITED(status))	  /*l'enfant termine normalement*/
+		waitpid(pid, &status, 0); /*parent process wait child terminate*/
+		if (WIFEXITED(status))	  /*child end success*/
 			return (WEXITSTATUS(status));
 		else
-			return (1); /*l'enfant se termine anormalement*/
+			return (1); /*child end failed*/
 	}
-	return (1); /*sécurité*/
+	return (1); /*security*/
 }

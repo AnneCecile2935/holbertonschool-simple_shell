@@ -234,36 +234,38 @@ Examples of shell usage
 ```mermaid
 flowchart TD
 
-    A[Simple_shell] --> B[Start]
-    B --> C{Command entered?}
-    C -- no --> B
-    C -- yes --> D[Read command]
-    D --> E{Is command empty?}
-    E -- yes --> B
-    E -- no --> F[Tokenize command into arguments]
-    F --> G{Built-in?}
-    G -- yes --> H[Execute built-in]
-    G -- no --> I[Create child process with fork]
-    H --> I1{Command 'exit'?}
-    I1 -- yes --> J[Exit shell]
-    I1 -- no --> K[Execute built-in command]
-    I --> L{Was fork successful?}
-    L -- no --> M[Print error using perror]
-    L -- yes --> N[Execute command with execve]
-    N --> O{Was execve successful?}
-    O -- no --> P[Print error with perror]
-    O -- yes --> S[Print result]
-    I -- yes --> Q[Wait for child process to finish]
-  K --> R[Free memory]
-    M --> R[Free memory]
-    P --> R[Free memory]
-    Q --> R[Free memory]
-    S --> R[Free memory]
-    R --> B[Ask for new command]
-    subgraph Misc
-        R1[Memory allocation]
-        R2[Memory deallocation]
-    end
+    A[Start:] --> B{Is interactive mode?}
+    B -- Yes --> C[handle_interactive_mode]
+    B -- No --> D[handle_non_interactive_mode]
+
+    C --> E[print_prompt]
+    C --> F[read_command]
+    D --> F
+
+    F --> G{Command is NULL?}
+    G -- Yes --> Z[Exit shell]
+    G -- No --> H[tokenize_string]
+
+    H --> I{Command is exit?}
+    I -- Yes --> Z
+    I -- No --> J[execute_command]
+
+    J --> K{Is built-in?}
+    K -- Yes --> L[Execute built-in]
+    K -- No --> M{Contains '/'?}
+
+    M -- Yes --> N{Is command executable?}
+    N -- Yes --> O[run_command]
+    N -- No --> P[Print error and return 127]
+
+    M -- No --> Q[find_command_in_path]
+    Q --> R{Found in PATH?}
+    R -- Yes --> O
+    R -- No --> P
+
+    O --> E
+    L --> E
+    P --> E
 ```
 
 ---
