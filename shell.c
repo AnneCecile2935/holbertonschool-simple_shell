@@ -14,24 +14,24 @@
  */
 void handle_interactive_mode(const char *shell_name, int *last_status)
 {
-	char *command = NULL;
-	char **args = NULL;
+	char *command = NULL; /*store line of command*/
+	char **args = NULL;	  /*resutl of stroke line command array*/
 
-	while (1)
+	while (1) /*infinite loop for shell be active */
 	{
 		print_prompt();
-		command = read_command();
+		command = read_command(); /*read command and store*/
 		if (command == NULL)
 		{
-			write(STDOUT_FILENO, "\n", 1);
-			break;
+			write(STDOUT_FILENO, "\n", 1); /*if NULL, \n*/
+			break;						   /*exit to the loop*/
 		}
 
-		args = tokenize_string(command);
+		args = tokenize_string(command); /*store tokens */
 		if (args == NULL)
 		{
 			free(command);
-			continue;
+			continue; /*next command */
 		}
 
 		if (args[0] && strcmp(args[0], "exit") == 0)
@@ -39,11 +39,11 @@ void handle_interactive_mode(const char *shell_name, int *last_status)
 			exit_shell(args, command, *last_status);
 			free(args);
 			free(command);
-			break;
+			break; /*exit to the loop*/
 		}
 
 		*last_status = execute_command(args, environ, (char *)shell_name);
-
+		/*execute command, store code result in*/
 		free(args);
 		free(command);
 	}
@@ -58,16 +58,17 @@ void handle_non_interactive_mode(const char *shell_name, int *last_status)
 	char *command = NULL;
 	char **args = NULL;
 
-	while ((command = read_command()) != NULL)
+	while ((command = read_command()) != NULL) /*if read command continue*/
 	{
 		if (command && *command)
 		{
-			args = tokenize_string(command);
+			args = tokenize_string(command); /*line is not empty*/
 			if (args != NULL)
 			{
 				if (args[0] && strcmp(args[0], "exit") == 0)
+				/*check command exit*/
 				{
-					exit_shell(args, command, *last_status);
+					exit_shell(args, command, *last_status); /*exit to shell*/
 				}
 
 				*last_status = execute_command(args, environ, (char *)shell_name);
@@ -88,7 +89,7 @@ int main(int argc, char **argv)
 {
 	int last_status;
 	(void)argc;
-	signal(SIGINT, sigint_handler);
+	signal(SIGINT, sigint_handler); /*CTR + C stop and return at new line*/
 
 	if (interactive_shell())
 	{

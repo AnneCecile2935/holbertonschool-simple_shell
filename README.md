@@ -12,6 +12,7 @@
 - [🧾 More Info](#-more-info)
 - [✅ Allowed Functions](#-allowed-functions)
 - [🛠️ Compilation](#-compilation)
+- [🛠️ Memory Leaks](#-memory-leaks)
 - [🧪 Testing](#-testing)
 - [🧪 Checks](#-checks)
 - [📊 Flowchart](#-flowchart)
@@ -124,6 +125,19 @@ gcc -Wall -Werror -Wextra -pedantic -std=gnu89 *.c -o shell
 
 ---
 
+## 🛠️ Memory leaks
+
+We detect a memory leak using Valgrind, a tool particularly useful for highlighting potential memory leaks.
+
+We compile with gcc.
+valgrind ./shell
+→ total heap usage: allocs, frees, 1,024 bytes allocated.
+
+After using Valgrind, we can see that there is no memory leak,
+because our static memory allocation properly retains a return value.
+
+---
+
 ## 🧪 Testing
 
 ### 🖥️ Interactive Mode
@@ -215,6 +229,7 @@ To view the manual page for this shell project, use the following command in you
 ```bash
 man shell
 ```
+
 ✅ Make sure the man_shell1 file is located at the root of the project directory.
 
 This manual page provides:

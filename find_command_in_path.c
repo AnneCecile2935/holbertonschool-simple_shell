@@ -1,13 +1,12 @@
 #include "shell.h"
 
 /**
-*  find_command_in_path - Searches for an executable in PATH directories.
-* @command: Command to locate.
-* @full_path: Buffer to store full path if found.
-* @shell: Shell name (unused here but for consistency)
-
-* Return: 1 if command is found and executable, 0 otherwise.
-*/
+ *  find_command_in_path - Searches for an executable in PATH directories.
+ * @command: Command to locate.
+ * @full_path: Buffer to store full path if found.
+ * @shell: Shell name (unused here but for consistency)
+ * Return: 1 if command is found and executable, 0 otherwise.
+ */
 int find_command_in_path(char *command, char *full_path, char *shell)
 {
 	char *path = _getenv("PATH"), *path_copy, *token;
