@@ -127,21 +127,20 @@ gcc -Wall -Werror -Wextra -pedantic -std=gnu89 *.c -o shell
 
 ## 🛠️ Memory leaks
 
-For detect a memory leak using Valgrind, a tool particularly useful for highlighting potential memory leaks.
+- For detect a memory leak using Valgrind, a tool particularly useful for highlighting potential memory leaks.
 
-We compile with gcc.
-Execute : valgrind ./shell
-After using Valgrind, we can see that there is no memory leak,
-because our static memory allocation properly retains a return value.
-→ total heap usage:
-==1022072== HEAP SUMMARY:
-==1022072==     in use at exit: 0 bytes in 0 blocks
-==1022072==   total heap usage: 8 allocs, 8 frees, 4,184 bytes allocated
-==1022072==
-==1022072== All heap blocks were freed -- no leaks are possible
-==1022072==
-==1022072== For lists of detected and suppressed errors, rerun with: -s
-==1022072== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+- We compile with gcc.
+- Execute : valgrind ./shell
+- After using Valgrind, we can see that there is no memory leak, because our static memory allocation properly retains a return value.
+- total heap usage:
+- ==1022072== HEAP SUMMARY:
+- ==1022072==     in use at exit: 0 bytes in 0 blocks
+- ==1022072==   total heap usage: 8 allocs, 8 frees, 4,184 bytes allocated
+- ==1022072==
+- ==1022072== All heap blocks were freed -- no leaks are possible
+- ==1022072==
+- ==1022072== For lists of detected and suppressed errors, rerun with: -s
+- ==1022072== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
 
 ---
 
